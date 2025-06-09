@@ -1,5 +1,9 @@
 # FOMC Meeting Statements & Minutes
 This repository automatically scrapes and aggregates the Federal Reserve FOMC meeting statements, minutes, and scheduled future meetings - creating a dataset that enables tracking US monetary policy changes through time.
+> **Note**
+> This is a fork of [vtasca/fed-statement-scraping](https://github.com/vtasca/fed-statement-scraping).
+
+This repository automatically scrapes and aggregates the Federal Reserve FOMC meeting statements and minutes - creating a dataset that enables tracking US monetary policy changes through time.
 
 It works by polling the website of the U.S. Federal Reserve on a periodic basis and scraping the new statements, minutes, and scheduled meetings as they become available. 
 The scraper runs in a scheduled GitHub Actions workflow, which is [available here](https://github.com/vtasca/fed-statement-scraping/actions/workflows/main.yml).
