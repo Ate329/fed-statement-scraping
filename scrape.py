@@ -212,7 +212,7 @@ def update_communications(new_comms, meeting_dates):
     combined['Text'] = combined['Text'].fillna("None")
     
     # Sort and save
-    combined.sort_values("Date", ascending=False) \
+    combined.sort_values(by=["Date", "Release Date"], ascending=False) \
             .to_csv("communications.csv", index=False)
 
     # Update most recent date if new comms exist
