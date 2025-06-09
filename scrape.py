@@ -1,8 +1,9 @@
 import re
-import csv
+import ssl
 
 import pandas as pd
 import requests
+from requests.adapters import HTTPAdapter
 from bs4 import BeautifulSoup
 from dateutil import parser
 
@@ -12,6 +13,18 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
     "Chrome/100.0.4896.127 Safari/537.36"
 }
+
+
+class LegacyTLSAdapter(HTTPAdapter):
+    def init_poolmanager(self, *args, **kwargs):
+        context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+        context.options |= 0x4  # OP_LEGACY_SERVER_CONNECT
+        kwargs["ssl_context"] = context
+        return super().init_poolmanager(*args, **kwargs)
+
+
+session = requests.Session()
+session.mount("https://", LegacyTLSAdapter())
 
 
 def tag_has_statement(tag):
@@ -27,10 +40,14 @@ def format_date(date):
 
 
 def read_most_recent_date(file_path):
-    with open(file_path, "r", encoding="utf-8") as f:
-        most_recent_date_string = f.read()
-        most_recent_date = parser.parse(most_recent_date_string)
-        return most_recent_date
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            most_recent_date_string = f.read().strip()
+            if not most_recent_date_string:
+                return parser.parse("1970-01-01")
+            return parser.parse(most_recent_date_string)
+    except FileNotFoundError:
+        return parser.parse("1970-01-01")
 
 
 def write_most_recent_date(file_path, date):
@@ -39,7 +56,7 @@ def write_most_recent_date(file_path, date):
 
 
 def fetch_page(url, headers):
-    response = requests.get(url, headers=headers)
+    response = session.get(url, headers=headers)
     if response.ok:
         return response.text
     return None

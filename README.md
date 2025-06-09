@@ -7,10 +7,10 @@ This repository automatically scrapes and aggregates the Federal Reserve FOMC me
 It works by polling the website of the U.S. Federal Reserve on a periodic basis and scraping the new statements, minutes, and scheduled meetings as they become available. 
 The scraper runs in a scheduled GitHub Actions workflow, which is [available here](https://github.com/vtasca/fed-statement-scraping/actions/workflows/main.yml).
 
-The dataset begins in the year 2000 and the textual data is presented as it is found on the website of the Federal Reserve.
+The dataset in this repository begins in 2020, as older data is no longer available on the Federal Reserve's website. For historical data starting from 2000, please refer to the dataset in the [original repository](https://github.com/vtasca/fed-statement-scraping/blob/master/communications.csv).
 
 ## Usage
-The updated dataset is located in this repository at [`communications.csv`](https://github.com/vtasca/fed-statement-scraping/blob/master/communications.csv). If found, new data is added on a weekly basis on Monday mornings.
+The updated dataset is located in this repository at [`communications.csv`](https://github.com/ate329/fed-statement-scraping/blob/master/communications.csv). If found, new data is added on a daily basis.
 
 ### Data description
 - `Date` - Date of the FOMC meeting.
